@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Fine Scuola</title>
+    <style>
+        :root {
+            --bg-light: #f4f4f4;
+            --text-light: #333;
+            --box-light: white;
+            --shadow-light: rgba(0, 0, 0, 0.2);
+            
+            --bg-dark: #202123;
+            --text-dark: #e5e5e5;
+            --box-dark: #2d2f31;
+            --shadow-dark: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            padding: 50px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        #countdown {
+            font-size: 3rem;
+            font-weight: bold;
+            background: var(--box-light);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 8px var(--shadow-light);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .dark-mode {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        .dark-mode #countdown {
+            background: var(--box-dark);
+            box-shadow: 0 4px 8px var(--shadow-dark);
+        }
+
+        #toggleTheme {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            transition: background 0.3s;
+        }
+
+        #toggleTheme:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <h1>Alla fine della scuola mancano</h1>
+    <div id="countdown">Fammi pensare...</div>
+    <br>
+    <button id="toggleTheme">Modalità Chiara</button>
+    
+    <script>
+        function updateCountdown() {
+            const referenceDate = new Date("2025-03-06T00:00:00"); // Data di riferimento per il calcolo
+            const now = new Date(); // Usa solo l'orario locale
+            const daysLeft = Math.max(66 - Math.ceil((now - referenceDate) / (1000 * 60 * 60 * 24)), 0);
+            
+
+            // Un altro modo per calcolare i giorni rimanenti utilizzando un server NTP come worldtimeapi.org
+            /*
+            async function updateCountdownWithNTP() {
+                try {
+                    const response = await fetch('http://worldtimeapi.org/api/timezone/Europe/Rome');
+                    const data = await response.json();
+                    const now = new Date(data.datetime);
+                    const referenceDate = new Date("2025-03-06T00:00:00");
+                    const daysLeft = Math.max(66 - Math.ceil((now - referenceDate) / (1000 * 60 * 60 * 24)), 0);
+                    
+                    document.getElementById("countdown").innerText = `${daysLeft} giorni`;
+                } catch (error) {
+                    console.error('Errore nel recupero del tempo dal server NTP:', error);
+                }
+            }
+            
+            updateCountdownWithNTP();
+            setInterval(updateCountdownWithNTP, 86400000); // Aggiornamento ogni 24h
+            */
+
+
+            document.getElementById("countdown").innerText = `${daysLeft} giorni`;
+        }
+        
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+            const btn = document.getElementById("toggleTheme");
+            if (document.body.classList.contains("dark-mode")) {
+                btn.innerText = "Modalità Chiara";
+            } else {
+                btn.innerText = "Modalità Scura";
+            }
+        }
+        
+        document.getElementById("toggleTheme").addEventListener("click", toggleTheme);
+        updateCountdown();
+        setInterval(updateCountdown, 86400000); // Aggiornamento ogni 24h
+    </script>
+</body>
+</html>
